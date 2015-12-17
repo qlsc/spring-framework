@@ -337,7 +337,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 					inputSource.setEncoding(encodedResource.getEncoding());
 				}
 				// 3 通过构造的 InputSource 实例和 Resource 实例调用方法 doLoadBeanDefinitions
-				//真正进入逻辑核心部分
+				// 真正进入逻辑核心部分
 				return doLoadBeanDefinitions(inputSource, encodedResource.getResource());
 			}
 			finally {
@@ -393,7 +393,9 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	protected int doLoadBeanDefinitions(InputSource inputSource, Resource resource)
 			throws BeanDefinitionStoreException {
 		try {
+			// 1.加载XML文件，得到对应的Document
 			Document doc = doLoadDocument(inputSource, resource);
+			// 2.根据返回的Document注册Bean信息
 			return registerBeanDefinitions(doc, resource);
 		}
 		catch (BeanDefinitionStoreException ex) {
@@ -508,9 +510,15 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * @see BeanDefinitionDocumentReader#registerBeanDefinitions
 	 */
 	public int registerBeanDefinitions(Document doc, Resource resource) throws BeanDefinitionStoreException {
+		// 使用DefaultBeanDefinitionDocumentReader实例化BeanDefinitionDocumentReader
 		BeanDefinitionDocumentReader documentReader = createBeanDefinitionDocumentReader();
+		// 在实例化 BeanDefinitionDocumentReader 时将 BeanDefinitionRegistry 传入，
+		// 默认使用继承自 DefaultListTableBeanFactory 的子类
+		// 记录统计前 BeanDefinition 的加载个数
 		int countBefore = getRegistry().getBeanDefinitionCount();
+		// 加载及注册 Bean
 		documentReader.registerBeanDefinitions(doc, createReaderContext(resource));
+		// 记录本次加载的 BeanDefinition 个数
 		return getRegistry().getBeanDefinitionCount() - countBefore;
 	}
 
