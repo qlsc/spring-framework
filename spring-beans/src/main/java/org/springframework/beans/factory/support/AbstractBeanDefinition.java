@@ -136,16 +136,22 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 
 	private volatile Object beanClass;
 
+	// bean 的作用范围
 	private String scope = SCOPE_DEFAULT;
 
+	// 是否是抽象
 	private boolean abstractFlag = false;
 
+	// 是否延迟加载
 	private boolean lazyInit = false;
 
+	// 自动注入模式
 	private int autowireMode = AUTOWIRE_NO;
 
+	// 依赖检查，Spring 3.0后弃用这个属性
 	private int dependencyCheck = DEPENDENCY_CHECK_NONE;
 
+	// 用来表示一个 bean 的实例化依靠另一个 bean 先实例化，对应 bean 属性 depend-on
 	private String[] dependsOn;
 
 	private boolean autowireCandidate = true;
